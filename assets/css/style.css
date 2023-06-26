@@ -30,6 +30,7 @@ header h1 {
 /* MAIN CONTAINER */
 .main-container {
     width: 100%;
+    display: flex;
 }
 
 /* ASIDE */
@@ -73,3 +74,20 @@ aside button:active {
     color: #000;
     margin: 1rem 0 0;
 }
+
+/* SECTION */
+section {
+    width: 70%;
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+
+.current-weather {
+    border: 1px solid #000;
+    padding: 0.5rem 0.3rem 0;
+}
+
+.current-weather p {
+    margin: 1rem 0;
+}
+
