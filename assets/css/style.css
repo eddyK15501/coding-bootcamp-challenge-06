@@ -26,3 +26,50 @@ header h1 {
     margin: 0.6rem 0 0.6rem 20%;
     font-weight: 700;
 }
+
+/* MAIN CONTAINER */
+.main-container {
+    width: 100%;
+}
+
+/* ASIDE */
+aside {
+    width: 20%;
+    padding: 0 0.5rem;
+}
+
+aside h2 {
+    font-size: 1.8rem;
+    margin: 0.5rem 0;
+}
+
+aside input {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.6rem 0.5rem;
+    border: 1px solid black;
+    border-radius: 0.2rem;
+    outline: none;
+}
+
+aside button {
+    width: 100%;
+    cursor: pointer;
+    background-color: rgb(118, 153, 235);
+    color: rgb(221, 221, 221);
+    padding: 0.5rem 0;
+    border-radius: 0.2rem;
+    border: none;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+}
+
+aside button:active {
+    transform: scale(0.98);
+}
+
+.searched-cities button {
+    background-color: rgb(173, 173, 173);
+    color: #000;
+    margin: 1rem 0 0;
+}
