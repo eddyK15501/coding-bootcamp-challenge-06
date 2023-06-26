@@ -16,13 +16,13 @@
     </header>
     <div class="main-container">
         <aside>
-            <form>
+            <div class="search-city">
                 <label>
                     <h2>Search for a City:</h2>
                 </label>
                 <input type="text" placeholder="Chapel Hill">
                 <button type="submit">Search</button>
-            </form>
+            </div>
             <hr>
             <div class="searched-cities">
                 <button>Raleigh</button>
@@ -37,16 +37,58 @@
         </aside>
 
         <section>
-            <div class="current-weather">
-                <h2>Raleigh <span id="current-date">(6/26/2023)</span></h2><span id="current-icon"></span>
-                <p>Temp: 76.62°F</p>
-                <p>Wind: 8.43 MPH</p>
-                <p>Humidity: 44 %</p>
+            <div class="current-weather-container">
+                <h2>Raleigh (6/26/2023) ☀️</h2>
+                <div class="current-weather">
+                    <p>Temp: 76.62°F</p>
+                    <p>Wind: 8.43 MPH</p>
+                    <p>Humidity: 44 %</p>
+                </div>
             </div>
 
 
 
-            <div></div>
+            <div class="next-five-days-container">
+                <h2>5-Day Forecast:</h2>
+                <div class="next-five-days">
+                    <div class="day">
+                        <h3>6/27/2023</h3>
+                        <p id="day-icon">☀️</p>
+                        <p>Temp: 63.55°F</p>
+                        <p>Wind: 3.94 MPH</p>
+                        <p>Humidity: 63%</p>
+                    </div>
+
+                    <div class="day">
+                        <h3>6/27/2023</h3>
+                        <p id="day-icon">☀️</p>
+                        <p>Temp: 63.55°F</p>
+                        <p>Wind: 3.94 MPH</p>
+                        <p>Humidity: 63%</p>
+                    </div>
+                    <div class="day">
+                        <h3>6/27/2023</h3>
+                        <p id="day-icon">☀️</p>
+                        <p>Temp: 63.55°F</p>
+                        <p>Wind: 3.94 MPH</p>
+                        <p>Humidity: 63%</p>
+                    </div>
+                    <div class="day">
+                        <h3>6/27/2023</h3>
+                        <p id="day-icon">☀️</p>
+                        <p>Temp: 63.55°F</p>
+                        <p>Wind: 3.94 MPH</p>
+                        <p>Humidity: 63%</p>
+                    </div>
+                    <div class="day">
+                        <h3>6/27/2023</h3>
+                        <p id="day-icon">☀️</p>
+                        <p>Temp: 63.55°F</p>
+                        <p>Wind: 3.94 MPH</p>
+                        <p>Humidity: 63%</p>
+                    </div>
+                </div>
+            </div>
         </section>
 
 

@@ -13,6 +13,10 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+h2 {
+    font-size: 1.8rem;
+}
+
 /* HEADER */
 header {
     display: flex;
@@ -40,7 +44,6 @@ aside {
 }
 
 aside h2 {
-    font-size: 1.8rem;
     margin: 0.5rem 0;
 }
 
@@ -63,6 +66,11 @@ aside button {
     border: none;
     margin: 1rem 0;
     font-size: 0.9rem;
+    transition: 0.15s ease-out;
+}
+
+aside button:hover {
+    color: #fff;
 }
 
 aside button:active {
@@ -82,12 +90,44 @@ section {
     margin-left: 1rem;
 }
 
-.current-weather {
+/* .CURRENT-WEATHER */
+.current-weather-container {
     border: 1px solid #000;
     padding: 0.5rem 0.3rem 0;
 }
 
 .current-weather p {
+    margin: 1.3rem 0;
+}
+
+/* .NEXT-FIVE-DAYS */
+.next-five-days-container {
+    width: 100%;
+}
+
+.next-five-days-container h2 {
+    font-size: 1.3rem;
     margin: 1rem 0;
+}
+
+.next-five-days {
+    display: flex;
+    justify-content: space-between;
+}
+
+.day {
+    color: #fff;
+    background-color: rgb(49, 53, 82);
+    padding: 0.3rem;
+    width: 18%;
+}
+
+.day p {
+    margin: 1rem 0;
+}
+
+#day-icon {
+    margin: 1rem 0 0 1rem;
+    font-size: 1.3rem;
 }
 
