@@ -11,6 +11,7 @@
 /* BODY */
 body {
     font-family: 'Roboto', sans-serif;
+    margin: 8px;
 }
 
 h2 {
@@ -118,7 +119,7 @@ section {
 .day {
     color: #fff;
     background-color: rgb(49, 53, 82);
-    padding: 0.3rem;
+    padding: 0.3rem 0.3rem 0.5rem;
     width: 18%;
 }
 
@@ -133,6 +134,10 @@ section {
 
 /* MEDIA QUERY */
 @media screen and (max-width: 777px) {
+    body {
+        margin: 0;
+    }
+
     header h1 {
         margin: 0.6rem 0 0.6rem 0;
     }
@@ -148,7 +153,7 @@ section {
     }
 
     aside h2 {
-        margin-top: 1.5rem;
+        margin-top: 1rem;
         text-align: center;
     }
 
@@ -161,13 +166,17 @@ section {
     }
 
     section {
-        margin: 1rem 0 5rem;
+        margin: 1rem 0 3rem;
         width: 90%;
     }
 }
 
 @media screen and (max-width: 632px) {
     .current-weather-container {
+        text-align: center;
+    }
+
+    .next-five-days-container h2 {
         text-align: center;
     }
 
