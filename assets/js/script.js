@@ -6,8 +6,8 @@ let city = ''
 
 
 // WRITTEN WITH .then()
-const fetchData = () => {
-    const requestURL = 'https://api.openweathermap.org/data/2.5/weather?q=Raleigh&units=imperial&appid=6a6afa479f8aa91f91f6f65a77189b0f'
+const fetchData = (cityName) => {
+    const requestURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=imperial&appid=6a6afa479f8aa91f91f6f65a77189b0f`
 
     fetch(requestURL)
         .then((res) => res.json())
@@ -17,8 +17,8 @@ const fetchData = () => {
 }
 
 // WRITTEN WITH async await
-const fetchFiveDays = async () => {
-    const requestURL = 'https://api.openweathermap.org/data/2.5/forecast?q=Raleigh&appid=6a6afa479f8aa91f91f6f65a77189b0f'
+const fetchFiveDays = async (cityName) => {
+    const requestURL = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=6a6afa479f8aa91f91f6f65a77189b0f`
 
     const response = await fetch(requestURL)
 
@@ -28,14 +28,27 @@ const fetchFiveDays = async () => {
 }
 
 
-fetchData()
-fetchFiveDays()
+
+
+const onFormSubmit = (event) => {
+    event.preventDefault()
+
+    fetchData(city)
+    fetchFiveDays(city)
+    
+
+    console.log(city)
+}
+
+
+
+
+
+
+
 
 cityName.addEventListener('keypress', (event) => {
     city = event.target.value
 })
 
-searchForm.addEventListener('submit', (event) => {
-    event.preventDefault()
-    console.log(city)
-})
+searchForm.addEventListener('submit', onFormSubmit)
