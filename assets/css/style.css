@@ -18,6 +18,11 @@ h2 {
     font-size: 1.8rem;
 }
 
+/* HIDE CLASS */
+.hide {
+    display: none;
+}
+
 /* HEADER */
 header {
     display: flex;
