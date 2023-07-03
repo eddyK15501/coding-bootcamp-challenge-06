@@ -3,9 +3,11 @@ const cityName = document.getElementById('city-name');
 const searchBtn = document.getElementById('search-btn')
 const section = document.querySelector('section')
 const nextFiveDays = document.querySelector('.next-five-days')
+const searchedCities = document.querySelector('.searched-cities')
 
 const myAPIKey = '6a6afa479f8aa91f91f6f65a77189b0f'
 
+let cityList = []
 let city = ''
 
 // WRITTEN WITH .then()
@@ -21,7 +23,6 @@ const fetchData = (cityName) => {
             }
         })
         .then((data) => {
-            console.log(data)
             fetchFiveDays(city)
             
             document.getElementById('current-city').innerText = data.name
@@ -29,9 +30,11 @@ const fetchData = (cityName) => {
             document.getElementById('current-icon').innerHTML = `<img src='http://openweathermap.org/img/w/${data.weather[0].icon}.png' />`
             document.getElementById('current-temp').innerText = `Temp: ${data.main.temp}°F`
             document.getElementById('current-wind').innerText = `Wind: ${data.wind.speed} MPH`
-            document.getElementById('current-humidity').innerText = `Humidity: ${data.main.humidity} %`
+            document.getElementById('current-humidity').innerText = `Humidity: ${data.main.humidity}%`
+
+            // console.log(data)
         })
-}
+    }
 
 // WRITTEN WITH async await
 const fetchFiveDays = async (cityName) => {
@@ -42,51 +45,55 @@ const fetchFiveDays = async (cityName) => {
     const data = await response.json()
 
     for (let i = 0; i < 5; i++) {
-        const day = document.createElement('div')
-        day.classList.add('day')
-        day.innerHTML = `
+        const nextDayForecast = document.createElement('div')
+        nextDayForecast.classList.add('day')
+        nextDayForecast.innerHTML = `
                 <h3>${new Date(((data.list[0].dt) * 1000) + ((i + 1) * 86400000)).toLocaleDateString()}</h3>
                 <img id="day-icon" src='http://openweathermap.org/img/wn/${data.list[1 + (8 * i)].weather[0].icon}.png' />
                 <p>Temp: ${data.list[1 + (8 * i)].main.temp}°F</p>
                 <p>Wind: ${data.list[1 + (8 * i)].wind.speed} MPH</p>
                 <p>Humidity: ${data.list[1 + (8 * i)].main.humidity}%</p>
             `
-            nextFiveDays.appendChild(day)
+
+        nextFiveDays.appendChild(nextDayForecast)
         }
-        
-     
-    
-    console.log(data)
+         
+    // console.log(data)
 }
 
+const addCityToList = () => {
 
+}
 
+// add proper case sensitivity to city name added to the searched list
+const caseSensitivity = (cityName) => {
+    let updateCity = cityName.toLowerCase().split(" ");
+    let returnCity = '';
+
+    for (let i = 0; i < updateCity.length; i++) {
+        updateCity[i] = updateCity[i][0].toUpperCase() + updateCity[i].slice(1);
+        returnCity += " " + updateCity[i];
+    }
+    return returnCity;
+}
 
 const onFormSubmit = (event) => {
     event.preventDefault()
 
     city = cityName.value
 
-    nextFiveDays.innerHTML = ''
-    
+    cityList.unshift(caseSensitivity(city))
+
+    console.log(cityList)
+
     fetchData(city)
+
+    nextFiveDays.innerHTML = ''
     
     cityName.value = ''
     
     section.classList.remove('hide')
 }
 
-
-
-
-
-
-
-
-// cityName.addEventListener('keypress', (event) => {
-//     city = event.target.value
-// })
-
-// searchBtn.addEventListener('click', onFormSubmit)
-
+// addEventListeners
 searchForm.addEventListener('submit', onFormSubmit)
