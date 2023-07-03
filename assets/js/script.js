@@ -17,14 +17,16 @@ const fetchData = (cityName) => {
     fetch(requestURL)
         .then((res) => {
             if (res.ok) {
+                section.classList.remove('hide')
+                addCityToList(cityName)
                 return res.json()
             } else {
-                alert('Please enter a valid city')
+                alert('Please enter a valid city for the weather search')
             }
         })
         .then((data) => {
-            fetchFiveDays(city)
-            
+            fetchFiveDays(cityName)
+
             document.getElementById('current-city').innerText = data.name
             document.getElementById('current-date').innerText = new Date().toLocaleDateString()
             document.getElementById('current-icon').innerHTML = `<img src='http://openweathermap.org/img/w/${data.weather[0].icon}.png' />`
@@ -44,6 +46,8 @@ const fetchFiveDays = async (cityName) => {
 
     const data = await response.json()
 
+    nextFiveDays.innerHTML = ''
+
     for (let i = 0; i < 5; i++) {
         const nextDayForecast = document.createElement('div')
         nextDayForecast.classList.add('day')
@@ -61,15 +65,45 @@ const fetchFiveDays = async (cityName) => {
     // console.log(data)
 }
 
-const addCityToList = () => {
+const addCityToList = (city) => {
+    let newCity = caseSensitivity(city)
+    
+    let exist = false
+    
+    for (let c of cityList) {
+        if (c === newCity) {
+            exist = true
+        }
+    }
+    
+    if (!exist) {
+        cityList.unshift(newCity)
+        
+        const cityBtn = document.createElement('button')
+        cityBtn.classList.add('city-btn')
+        cityBtn.innerText = `${cityList[0]}`
+        searchedCities.prepend(cityBtn) 
 
+        document.querySelectorAll('.city-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                fetchData(e.target.innerText)
+            })
+        })
+    } 
+    
+    if (cityList.length > 8) {
+        searchedCities.removeChild(searchedCities.lastElementChild)
+        exist = false
+    }
+    
+    // console.log(cityList)
 }
 
 // add proper case sensitivity to city name added to the searched list
 const caseSensitivity = (cityName) => {
     let updateCity = cityName.toLowerCase().split(" ");
     let returnCity = '';
-
+    
     for (let i = 0; i < updateCity.length; i++) {
         updateCity[i] = updateCity[i][0].toUpperCase() + updateCity[i].slice(1);
         returnCity += " " + updateCity[i];
@@ -79,20 +113,12 @@ const caseSensitivity = (cityName) => {
 
 const onFormSubmit = (event) => {
     event.preventDefault()
-
+    
     city = cityName.value
-
-    cityList.unshift(caseSensitivity(city))
-
-    console.log(cityList)
-
-    fetchData(city)
-
-    nextFiveDays.innerHTML = ''
     
     cityName.value = ''
     
-    section.classList.remove('hide')
+    fetchData(city)
 }
 
 // addEventListeners
