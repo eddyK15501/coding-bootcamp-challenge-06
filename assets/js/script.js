@@ -1,3 +1,4 @@
+// getElementById and querySelector
 const searchForm = document.querySelector('.search-form')
 const cityName = document.getElementById('city-name');
 const searchBtn = document.getElementById('search-btn')
@@ -5,17 +6,20 @@ const section = document.querySelector('section')
 const nextFiveDays = document.querySelector('.next-five-days')
 const searchedCities = document.querySelector('.searched-cities')
 
+// my personal openweatherapi private key
 const myAPIKey = '6a6afa479f8aa91f91f6f65a77189b0f'
 
+// global variables
 let cityList = []
 let city = ''
 
-// WRITTEN WITH .then()
+// call openweatherapi for current weather. WRITTEN WITH .then()
 const fetchData = (cityName) => {
     const requestURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=imperial&appid=${myAPIKey}`
 
     fetch(requestURL)
         .then((res) => {
+            // if the response gets an error, alert. if not, remove hide class, add city below the search form, and return the response in JSON format
             if (res.ok) {
                 section.classList.remove('hide')
                 addCityToList(cityName)
@@ -25,8 +29,10 @@ const fetchData = (cityName) => {
             }
         })
         .then((data) => {
+            // call openweatherapi for five day forcast
             fetchFiveDays(cityName)
 
+            // add current weather data to the html
             document.getElementById('current-city').innerText = data.name
             document.getElementById('current-date').innerText = new Date().toLocaleDateString()
             document.getElementById('current-icon').innerHTML = `<img src='http://openweathermap.org/img/w/${data.weather[0].icon}.png' />`
@@ -38,7 +44,7 @@ const fetchData = (cityName) => {
         })
     }
 
-// WRITTEN WITH async await
+// call openweatherapi for five day/three hour weather data. WRITTEN WITH async await
 const fetchFiveDays = async (cityName) => {
     const requestURL = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&units=imperial&appid=${myAPIKey}`
 
@@ -46,8 +52,11 @@ const fetchFiveDays = async (cityName) => {
 
     const data = await response.json()
 
+    // clear previous search results for five day forcast
     nextFiveDays.innerHTML = ''
 
+    // get unix timestamp, convert to milliseconds, then add one day in milliseconds (86400000 = 1 day) to each day
+    // data.list[1 + (8 * i)] will bring back 12:00PM data for each of the following five day forcast; be it the temp, windspeed, humidity, etc.
     for (let i = 0; i < 5; i++) {
         const nextDayForecast = document.createElement('div')
         nextDayForecast.classList.add('day')
@@ -59,31 +68,38 @@ const fetchFiveDays = async (cityName) => {
                 <p>Humidity: ${data.list[1 + (8 * i)].main.humidity}%</p>
             `
 
+        // append onto the html
         nextFiveDays.appendChild(nextDayForecast)
         }
          
     // console.log(data)
 }
 
+// add city below the search form.
 const addCityToList = (city) => {
     let newCity = caseSensitivity(city)
     
     let exist = false
     
+    // if the searched city is in the array, boolean to true
     for (let c of cityList) {
         if (c === newCity) {
             exist = true
         }
     }
     
+    // if the city has not been searched before
     if (!exist) {
+        // add city to the front of the array
         cityList.unshift(newCity)
-        
+
+        // create a button with the city searched, and prepend it to the top
         const cityBtn = document.createElement('button')
         cityBtn.classList.add('city-btn')
         cityBtn.innerText = `${cityList[0]}`
         searchedCities.prepend(cityBtn) 
 
+        // addeventlisteners to each button with the city that was searched
         document.querySelectorAll('.city-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 fetchData(e.target.innerText)
@@ -91,6 +107,7 @@ const addCityToList = (city) => {
         })
     } 
     
+    // if the list of cities is greater than 8, then remove the last child from the element
     if (cityList.length > 8) {
         searchedCities.removeChild(searchedCities.lastElementChild)
         exist = false
@@ -99,7 +116,7 @@ const addCityToList = (city) => {
     // console.log(cityList)
 }
 
-// add proper case sensitivity to city name added to the searched list
+// add proper case sensitivity to city name added to the searched list, for when they are rendered
 const caseSensitivity = (cityName) => {
     let updateCity = cityName.toLowerCase().split(" ");
     let returnCity = '';
@@ -111,6 +128,7 @@ const caseSensitivity = (cityName) => {
     return returnCity;
 }
 
+// on initial search, fetch data from openweatherapi. clear the input box.
 const onFormSubmit = (event) => {
     event.preventDefault()
     
@@ -121,5 +139,5 @@ const onFormSubmit = (event) => {
     fetchData(city)
 }
 
-// addEventListeners
+// addEventListener on the search form
 searchForm.addEventListener('submit', onFormSubmit)
