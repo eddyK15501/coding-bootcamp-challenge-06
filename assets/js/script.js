@@ -55,7 +55,7 @@ const fetchFiveDays = async (cityName) => {
     // clear previous search results for five day forcast
     nextFiveDays.innerHTML = ''
 
-    // get unix timestamp, convert to milliseconds, then add one day in milliseconds (86400000 = 1 day) to each day
+    // get unix timestamp, convert it to milliseconds, then add one day in milliseconds (86400000 = 1 day) to each timestamp through a for loop.
     // data.list[1 + (8 * i)] will bring back 12:00PM data for each of the following five day forcast; be it the temp, windspeed, humidity, etc.
     for (let i = 0; i < 5; i++) {
         const nextDayForecast = document.createElement('div')
@@ -67,7 +67,6 @@ const fetchFiveDays = async (cityName) => {
                 <p>Wind: ${data.list[1 + (8 * i)].wind.speed} MPH</p>
                 <p>Humidity: ${data.list[1 + (8 * i)].main.humidity}%</p>
             `
-
         // append onto the html
         nextFiveDays.appendChild(nextDayForecast)
         }
@@ -100,26 +99,29 @@ const addCityToList = (city) => {
         searchedCities.prepend(cityBtn) 
     } 
     
-    // if the list of cities is greater than 7, then remove the last child from the element
+    // if the list of cities is greater than 7, then remove the last child from the element.
     if (cityList.length > 7) {
         let nodes = document.querySelectorAll('.city-btn')
         let last = nodes[nodes.length - 1]
         last.remove()
+
+        // remove city from the array
         cityList.pop()
     }
 
     // addeventlisteners to each button with the city that was searched
     document.querySelectorAll('.city-btn').forEach(btn => {
+        // removeEventListener for each button created, for a smoother fetch request
         btn.removeEventListener('click')
         btn.addEventListener('click', (e) => {
             fetchData(e.target.innerText)
         })
     })
-    
+
     // console.log(cityList)
 }
 
-// add proper case sensitivity to city name added to the searched list, for when they are rendered
+// add proper case sensitivity to city name added to the searched list; Capitalize the first letter of the city
 const caseSensitivity = (cityName) => {
     let updateCity = cityName.toLowerCase().split(" ");
     let returnCity = '';
