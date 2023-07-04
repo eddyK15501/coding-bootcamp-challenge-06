@@ -6,14 +6,14 @@ const section = document.querySelector('section')
 const nextFiveDays = document.querySelector('.next-five-days')
 const searchedCities = document.querySelector('.searched-cities')
 
-// my personal openweatherapi private key
+// my personal OpenWeatherMap API private key
 const myAPIKey = '6a6afa479f8aa91f91f6f65a77189b0f'
 
 // global variables
 let cityList = []
 let city = ''
 
-// call openweatherapi for current weather. WRITTEN WITH .then()
+// call OpenWeatherMap API for current weather. WRITTEN WITH .then()
 const fetchData = (cityName) => {
     const requestURL = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=imperial&appid=${myAPIKey}`
 
@@ -29,7 +29,7 @@ const fetchData = (cityName) => {
             }
         })
         .then((data) => {
-            // call openweatherapi for five day forcast
+            // call OpenWeatherMap API for five day forcast
             fetchFiveDays(cityName)
 
             // add current weather data to the html
@@ -44,7 +44,7 @@ const fetchData = (cityName) => {
         })
     }
 
-// call openweatherapi for five day/three hour weather data. WRITTEN WITH async await
+// call OpenWeatherMap API for five day/three hour weather data. WRITTEN WITH async await
 const fetchFiveDays = async (cityName) => {
     const requestURL = `https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&units=imperial&appid=${myAPIKey}`
 
@@ -135,7 +135,7 @@ const caseSensitivity = (cityName) => {
     return returnCity;
 }
 
-// on initial search, fetch data from openweatherapi. clear the input box.
+// on initial search, fetch data from OpenWeatherMap. clear the input box.
 const onFormSubmit = (event) => {
     event.preventDefault()
     
