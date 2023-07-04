@@ -97,7 +97,9 @@ const addCityToList = (city) => {
         cityBtn.classList.add('city-btn')
         cityBtn.innerText = `${cityList[0]}`
         searchedCities.prepend(cityBtn) 
-    } 
+    } else {
+        return
+    }
     
     // if the list of cities is greater than 7, then remove the last child from the element.
     if (cityList.length > 7) {
@@ -112,7 +114,7 @@ const addCityToList = (city) => {
     // addeventlisteners to each button with the city that was searched
     document.querySelectorAll('.city-btn').forEach(btn => {
         // removeEventListener for each button created, for a smoother fetch request
-        btn.removeEventListener('click')
+        btn.removeEventListener('click', fetchData)
         btn.addEventListener('click', (e) => {
             fetchData(e.target.innerText)
         })
