@@ -19,13 +19,12 @@ const fetchData = (cityName) => {
 
     fetch(requestURL)
         .then((res) => {
-            // if the response gets an error, alert. if not, remove hide class, add city below the search form, and return the response in JSON format
             if (res.ok) {
                 section.classList.remove('hide')
                 addCityToList(cityName)
                 return res.json()
             } else {
-                alert('Please enter a valid city for the weather search')
+                return
             }
         })
         .then((data) => {
@@ -61,32 +60,45 @@ const fetchFiveDays = async (cityName) => {
         const nextDayForecast = document.createElement('div')
         nextDayForecast.classList.add('day')
         nextDayForecast.innerHTML = `
-                <h3>${new Date(((data.list[0].dt) * 1000) + ((i + 1) * 86400000)).toLocaleDateString()}</h3>
-                <img id="day-icon" src='http://openweathermap.org/img/wn/${data.list[1 + (8 * i)].weather[0].icon}.png' />
-                <p>Temp: ${data.list[1 + (8 * i)].main.temp}°F</p>
-                <p>Wind: ${data.list[1 + (8 * i)].wind.speed} MPH</p>
-                <p>Humidity: ${data.list[1 + (8 * i)].main.humidity}%</p>
-            `
-        // append onto the html
+            <h3>${new Date(((data.list[0].dt) * 1000) + ((i + 1) * 86400000)).toLocaleDateString()}</h3>
+            <img id="day-icon" src='http://openweathermap.org/img/wn/${data.list[1 + (8 * i)].weather[0].icon}.png' />
+            <p>Temp: ${data.list[1 + (8 * i)].main.temp}°F</p>
+            <p>Wind: ${data.list[1 + (8 * i)].wind.speed} MPH</p>
+            <p>Humidity: ${data.list[1 + (8 * i)].main.humidity}%</p>
+        `
+
         nextFiveDays.appendChild(nextDayForecast)
         }
          
     // console.log(data)
 }
 
+// add proper case sensitivity to city name added to the searched list; Capitalize the first letter of the city
+const caseSensitivity = (cityName) => {
+    let updateCity = cityName.toLowerCase().split(" ");
+    let returnCity = '';
+    
+    for (let i = 0; i < updateCity.length; i++) {
+        updateCity[i] = updateCity[i][0].toUpperCase() + updateCity[i].slice(1);
+        returnCity += " " + updateCity[i];
+    }
+    // trim extra space, within the string being returned
+    return returnCity.trim();
+}
+
 // add city below the search form.
 const addCityToList = (city) => {
     let newCity = caseSensitivity(city)
-    
+
     let exist = false
     
-    // if the searched city is in the array, boolean to true
+    // if the searched city is already within the cityList array, exist is equal to true
     for (let c of cityList) {
         if (c === newCity) {
             exist = true
         }
     }
-    
+
     // if the city has not been searched before
     if (!exist) {
         // add city to the front of the array
@@ -110,6 +122,9 @@ const addCityToList = (city) => {
         // remove city from the array
         cityList.pop()
     }
+    
+    // set local storage with the cityList array
+    localStorage.setItem('cities', JSON.stringify(cityList))
 
     // addeventlisteners to each button with the city that was searched
     document.querySelectorAll('.city-btn').forEach(btn => {
@@ -119,20 +134,47 @@ const addCityToList = (city) => {
             fetchData(e.target.innerText)
         })
     })
-
-    // console.log(cityList)
 }
 
-// add proper case sensitivity to city name added to the searched list; Capitalize the first letter of the city
-const caseSensitivity = (cityName) => {
-    let updateCity = cityName.toLowerCase().split(" ");
-    let returnCity = '';
-    
-    for (let i = 0; i < updateCity.length; i++) {
-        updateCity[i] = updateCity[i][0].toUpperCase() + updateCity[i].slice(1);
-        returnCity += " " + updateCity[i];
+// add cities to the search list history, on initial render
+const addStorageList = () => {
+    if (cityList.length > 0) {
+        cityList.forEach(city => {
+            const cityBtn = document.createElement('button')
+            cityBtn.classList.add('city-btn')
+            cityBtn.innerText = `${city}`
+            searchedCities.append(cityBtn) 
+        })
+    } else if (cityList.length > 7) {
+        let nodes = document.querySelectorAll('.city-btn')
+        let last = nodes[nodes.length - 1]
+        last.remove()
+        cityList.pop()
+    } else {
+        return
     }
-    return returnCity;
+
+    document.querySelectorAll('.city-btn').forEach(btn => {
+        btn.removeEventListener('click', fetchData)
+        btn.addEventListener('click', (e) => {
+            fetchData(e.target.innerText)
+        })
+    })   
+}
+
+// get local storage on initial render
+const getLocalStorage = () => {
+    const storageList = JSON.parse(localStorage.getItem('cities'))
+
+    // if local storage array is empty, this function will return a boolean of false
+    if (!storageList) {
+        return false
+    }
+
+    // store cities saved, back into cityList array
+    cityList = storageList
+
+    addStorageList()
 }
 
 // on initial search, fetch data from OpenWeatherMap. clear the input box.
@@ -143,8 +185,16 @@ const onFormSubmit = (event) => {
     
     cityName.value = ''
     
-    fetchData(city)
+    // if a city is searched, then call fetchData. else, alert and stop function
+    if (city) {
+        fetchData(city)
+    } else {
+        alert("Please enter a city")
+        return
+    }
 }
 
 // addEventListener on the search form
 searchForm.addEventListener('submit', onFormSubmit)
+
+getLocalStorage()
