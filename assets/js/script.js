@@ -55,7 +55,7 @@ const fetchFiveDays = async (cityName) => {
     nextFiveDays.innerHTML = ''
 
     // get unix timestamp, convert it to milliseconds, then add one day in milliseconds (86400000 = 1 day) to each timestamp through a for loop.
-    // data.list[1 + (8 * i)] will bring back 3:00PM data for each of the following five day forcast; be it the temp, windspeed, humidity, etc.
+    // data.list[3 + (8 * i)] will bring back 3:00PM data for each of the following five day forcast; be it the temp, windspeed, humidity, etc.
     for (let i = 0; i < 5; i++) {
         const nextDayForecast = document.createElement('div')
         nextDayForecast.classList.add('day')
