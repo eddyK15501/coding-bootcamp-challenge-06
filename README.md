@@ -1,7 +1,7 @@
 # Weather Dashboard
 
 ## Description
-In this weeks challenge, we're asked to build a weather application, using a third party API from OpenWeatherMap. Upon calling two seperate API calls from our frontend website, using the JavaScript fetch method, we are able to retrieve data from OpenWeatherMap on the current weather, as well as the upcoming five day forecast. The temperature, wind speed, and the humidity will be included in this application.
+In this weeks challenge, we were asked to build a weather application, using a third party API from OpenWeatherMap. Upon calling two seperate API calls from our frontend website, using the JavaScript fetch method, we are able to retrieve data from OpenWeatherMap on the current weather, as well as the upcoming five day forecast. The temperature, wind speed, and the humidity will be included in this application.
 
 Cities that were searched will be logged in history, for quick access, as well as revisiting purposes. Refresh the page, and the cities that were searched will remain on local storage.
 
