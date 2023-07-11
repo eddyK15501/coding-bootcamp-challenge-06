@@ -39,7 +39,7 @@ const fetchData = (cityName) => {
             document.getElementById('current-wind').innerText = `Wind: ${data.wind.speed} MPH`
             document.getElementById('current-humidity').innerText = `Humidity: ${data.main.humidity}%`
 
-            // console.log(data)
+            console.log(data)
         })
     }
 
@@ -54,7 +54,7 @@ const fetchFiveDays = async (cityName) => {
     // clear previous search results for five day forcast
     nextFiveDays.innerHTML = ''
 
-    // get unix timestamp, convert it to milliseconds, then add one day in milliseconds (86400000 = 1 day) to each timestamp through a for loop.
+    // get unix timestamp, convert to milliseconds, then add one day in milliseconds (86400000 = 1 day), to get the dates of the next five days.
     // data.list[7 + (8 * i)] will bring back 3:00PM data for each of the following five day forcast; be it the temp, windspeed, humidity, etc.
     for (let i = 0; i < 5; i++) {
         const nextDayForecast = document.createElement('div')
@@ -70,7 +70,7 @@ const fetchFiveDays = async (cityName) => {
         nextFiveDays.appendChild(nextDayForecast)
         }
          
-    // console.log(data)
+    console.log(data)
 }
 
 // add proper case sensitivity to city name added to the searched list; Capitalize the first letter of the city
@@ -86,7 +86,7 @@ const caseSensitivity = (cityName) => {
     return returnCity.trim();
 }
 
-// add city below the search form.
+// add city to the search history.
 const addCityToList = (city) => {
     let newCity = caseSensitivity(city)
 
@@ -113,13 +113,13 @@ const addCityToList = (city) => {
         return
     }
     
-    // if the list of cities is greater than 7, then remove the last child from the element.
-    if (cityList.length > 7) {
+    // if the list of cities is greater than 8, then remove the last child from the element.
+    if (cityList.length > 8) {
         let nodes = document.querySelectorAll('.city-btn')
         let last = nodes[nodes.length - 1]
         last.remove()
 
-        // remove city from the array
+        // remove the last city from within the array
         cityList.pop()
     }
     
@@ -128,12 +128,27 @@ const addCityToList = (city) => {
 
     // addeventlisteners to each button with the city that was searched
     document.querySelectorAll('.city-btn').forEach(btn => {
-        // removeEventListener for each button created, for a smoother fetch request
+        // removeEventListener first, for each button. Or else, addEventListeners will stack on the button
         btn.removeEventListener('click', fetchData)
         btn.addEventListener('click', (e) => {
             fetchData(e.target.innerText)
         })
     })
+}
+
+// get local storage array of previous searched cities
+const getLocalStorage = () => {
+    const storageList = JSON.parse(localStorage.getItem('cities'))
+
+    // if local storage array is empty, this function will return a boolean of false
+    if (!storageList) {
+        return false
+    }
+
+    // local storage cities, saved back int the initial cityList array
+    cityList = storageList
+
+    addStorageList()
 }
 
 // add cities to the search list history, on initial render
@@ -145,7 +160,7 @@ const addStorageList = () => {
             cityBtn.innerText = `${city}`
             searchedCities.append(cityBtn) 
         })
-    } else if (cityList.length > 7) {
+    } else if (cityList.length > 8) {
         let nodes = document.querySelectorAll('.city-btn')
         let last = nodes[nodes.length - 1]
         last.remove()
@@ -162,22 +177,7 @@ const addStorageList = () => {
     })   
 }
 
-// get local storage on initial render
-const getLocalStorage = () => {
-    const storageList = JSON.parse(localStorage.getItem('cities'))
-
-    // if local storage array is empty, this function will return a boolean of false
-    if (!storageList) {
-        return false
-    }
-
-    // store cities saved, back into cityList array
-    cityList = storageList
-
-    addStorageList()
-}
-
-// on initial search, fetch data from OpenWeatherMap. clear the input box.
+// on initial search, fetch data from OpenWeatherMap. clear the input box after searching.
 const onFormSubmit = (event) => {
     event.preventDefault()
     
@@ -197,4 +197,5 @@ const onFormSubmit = (event) => {
 // addEventListener on the search form
 searchForm.addEventListener('submit', onFormSubmit)
 
+// get local storage from the start
 getLocalStorage()
