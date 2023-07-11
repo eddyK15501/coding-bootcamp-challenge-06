@@ -99,11 +99,25 @@ section {
 /* .CURRENT-WEATHER */
 .current-weather-container {
     border: 1px solid #000;
-    padding: 0.5rem 0.3rem 0;
+    padding: 0rem 0.3rem;
+}
+
+.current-weather-header {
+    display: flex;
+    align-items: center;
 }
 
 .current-weather p {
     margin: 1.3rem 0;
+}
+
+#current-date {
+    margin-left: 0.1rem;
+}
+
+#current-icon img {
+    width: 60px;
+    height: 60px;
 }
 
 /* .NEXT-FIVE-DAYS */

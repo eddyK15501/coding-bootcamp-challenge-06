@@ -33,7 +33,7 @@ const fetchData = (cityName) => {
 
             // add current weather data to the html
             document.getElementById('current-city').innerText = data.name
-            document.getElementById('current-date').innerText = new Date().toLocaleDateString()
+            document.getElementById('current-date').innerText = `(${new Date().toLocaleDateString()})`
             document.getElementById('current-icon').innerHTML = `<img src='http://openweathermap.org/img/w/${data.weather[0].icon}.png' />`
             document.getElementById('current-temp').innerText = `Temp: ${data.main.temp}°F`
             document.getElementById('current-wind').innerText = `Wind: ${data.wind.speed} MPH`
