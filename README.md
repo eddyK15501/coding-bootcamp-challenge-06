@@ -1,4 +1,4 @@
-# Weather Dashboard
+# Weather Dashboard • [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Description
 In this weeks challenge, we were asked to build a weather application, using a third party API from OpenWeatherMap. Upon calling two seperate API calls from our frontend website, using the JavaScript fetch method, we are able to retrieve data relating to the current weather, as well as the upcoming five day weather forecast. The temperature, wind speed, and the humidity will be included in this application.
