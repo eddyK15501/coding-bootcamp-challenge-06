@@ -6,7 +6,7 @@ In this weeks challenge, we were asked to build a weather application, using a t
 Cities that were searched will be logged in history for quick access, as well as revisiting purposes. Refresh the page, and the cities that were searched will remain on local storage.
 
 #### Link to the deployed application:
-https://eddyk15501.github.io/coding-bootcamp-challenge-06/
+https://eddyk15501.github.io/weather-dashboard/
 
 ## Installation
 Optional: Live Server from the Visual Studio Code extensions tab
